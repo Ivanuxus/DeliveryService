@@ -1,0 +1,20 @@
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Имя</th>
+            <th>Телефон</th>
+            <th>Транспорт</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for courier in couriers %}
+        <tr>
+            <td>{{ courier.id }}</td>
+            <td>{{ courier.name }}</td>
+            <td>{{ courier.phone }}</td>
+            <td>{{ courier.vehicle }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

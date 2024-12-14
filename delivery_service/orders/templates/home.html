@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+    <h1>Добро пожаловать в Delivery Service!</h1>
+    <p>На главной странице вы можете перейти к просмотру таблиц данных:</p>
+    <ul>
+        <li><a href="{% url 'customers_list' %}">Список клиентов</a></li>
+        <li><a href="{% url 'orders_list' %}">Список заказов</a></li>
+        <li><a href="{% url 'couriers_list' %}">Список курьеров</a></li>
+        <li><a href="{% url 'map' %}">Карта заказов</a></li>
+    </ul>
+</body>
+</html>

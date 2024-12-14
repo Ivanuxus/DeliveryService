@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery Map</title>
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=2f6f7702-1e57-4da6-b142-43d1156212b8
+    &lang=ru_RU" type="text/javascript"></script>
+    <style>
+        #map {
+            width: 100%;
+            height: 500px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Карта доставки</h1>
+    <div id="map"></div>
+    <script>
+        ymaps.ready(function () {
+            var map = new ymaps.Map("map", {
+                center: [55.76, 37.64],
+                zoom: 10
+            });
+
+            // Добавляем маркер
+            var placemark = new ymaps.Placemark([55.76, 37.64], {
+                balloonContent: 'Ваш заказ здесь!'
+            });
+            map.geoObjects.add(placemark);
+        });
+    </script>
+</body>
+</html>

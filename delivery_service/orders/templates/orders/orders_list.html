@@ -1,0 +1,26 @@
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Клиент</th>
+            <th>Курьер</th>
+            <th>Статус</th>
+            <th>Адрес</th>
+            <th>Создан</th>
+            <th>Обновлен</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.customer.name }}</td>
+            <td>{{ order.courier.name }}</td>
+            <td>{{ order.status }}</td>
+            <td>{{ order.address }}</td>
+            <td>{{ order.created_at }}</td>
+            <td>{{ order.updated_at }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Delivery Service{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <h1>Delivery Service</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/customers/">Customers</a></li>
+                <li><a href="/orders/">Orders</a></li>
+                <li><a href="/map/">Map</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        {% block content %}
+        <!-- Page-specific content will go here -->
+        {% endblock %}
+    </main>
+    <footer>
+        <p>&copy; 2024 Delivery Service</p>
+    </footer>
+</body>
+</html>
