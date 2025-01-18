@@ -14,5 +14,5 @@ class OrderAdmin(admin.ModelAdmin):
 
 @admin.register(Courier)
 class CourierAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'phone', 'vehicle')  # Обновлено
-    search_fields = ('name', 'phone', 'vehicle')
+    list_display = ('id', 'name', 'phone', 'vehicle', 'balance')
+    search_fields = ('name', 'phone', 'vehicle', 'email') 

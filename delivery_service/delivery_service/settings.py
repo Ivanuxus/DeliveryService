@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django_filters',
     "corsheaders",
     'rest_framework',
-    'pytest'
+    'pytest',
+    'django_extensions',
 ]
 AUTH_USER_MODEL = 'orders.User' 
 
@@ -83,7 +84,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "whitenoise.middleware.WhiteNoiseMiddleware",
-    'delivery_service.middleware.RoleBasedAccessMiddleware'
+    'delivery_service.middleware.RoleBasedAccessMiddleware',
+    'corsheaders.middleware.CorsMiddleware'
 ]
 
 ROOT_URLCONF = 'delivery_service.urls'
@@ -103,7 +105,6 @@ TEMPLATES = [
         },
     },
 ]
-MIDDLEWARE.insert(0, "corsheaders.middleware.CorsMiddleware")
 
 WSGI_APPLICATION = 'delivery_service.wsgi.application'
 
@@ -141,10 +142,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/5.1/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -171,3 +168,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+APPEND_SLASH = True

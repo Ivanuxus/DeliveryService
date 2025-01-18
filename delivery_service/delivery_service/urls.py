@@ -2,6 +2,9 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenRefreshView
+from rest_framework.schemas import get_schema_view
+from rest_framework.permissions import AllowAny
+
 from orders.views import (
     CustomerViewSet,
     CourierViewSet,
@@ -15,6 +18,15 @@ from orders.views import (
     RegisterView, 
     LoginView, 
     UserDetailView,
+)
+
+
+# Публичная схема API
+schema_view = get_schema_view(
+    title="API Schema",
+    description="OpenAPI Schema for Delivery Service",
+    version="1.0.0",
+    permission_classes=[AllowAny],  # Отключаем аутентификацию для схемы
 )
 
 # API роутер
@@ -33,9 +45,9 @@ urlpatterns = [
     path('map/', map_view, name='map'),  # Карта
     path('api/', include(router.urls)),  # API маршруты
     path('react/', ReactAppView.as_view(), name='react'),  # React-приложение
-        path('api/register/', RegisterView.as_view(), name='register'),
+    path('api/register/', RegisterView.as_view(), name='register'),
     path('api/login/', LoginView.as_view(), name='login'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/me/', UserDetailView.as_view(), name='user_detail'),
-
+    path('api/schema/', schema_view, name='api-schema'),    
 ]

@@ -65,8 +65,7 @@ class CustomerSerializer(serializers.ModelSerializer):
 class CourierSerializer(serializers.ModelSerializer):
     class Meta:
         model = Courier
-        fields = '__all__'
-
+        fields = ['id', 'name', 'phone', 'vehicle', 'email', 'balance', 'monthly_order_count']
 
 class OrderSerializer(serializers.ModelSerializer):
     # Поля для отображения имен (только чтение)

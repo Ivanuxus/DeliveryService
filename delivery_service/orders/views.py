@@ -1,5 +1,6 @@
 from rest_framework import viewsets
-from .models import Customer, Courier, Order, User
+from .models import Customer,Courier, Order, User
+from rest_framework.decorators import action
 from .permissions import IsAdmin, IsCourier, IsCustomer
 from .serializers import CustomerSerializer, CourierSerializer, OrderSerializer, RegisterSerializer, UserSerializer
 from django.shortcuts import render
@@ -7,12 +8,15 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
 from django.views.generic import TemplateView
+from datetime import datetime, timedelta
+from django.utils.timezone import now
 from django.http import HttpResponseNotFound
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
+import logging
 from rest_framework_simplejwt.tokens import RefreshToken
-
+logger = logging.getLogger(__name__)
 # Представление для карты
 def map_view(request):
     return render(request, 'orders/map.html')
@@ -55,6 +59,12 @@ class CourierViewSet(viewsets.ModelViewSet):
     queryset = Courier.objects.all()
     serializer_class = CourierSerializer
     permission_classes = [IsAuthenticated]
+    
+    def get_queryset(self):
+        user = self.request.user
+        if user.role == 'courier':
+            return Courier.objects.filter(email=user.email)
+        return super().get_queryset()
 
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
@@ -68,6 +78,7 @@ class OrderViewSet(viewsets.ModelViewSet):
         elif self.action in ['create', 'update', 'delete']:
             return [IsAuthenticated(), IsAdmin()]
         return super().get_permissions()
+    
     class RegisterView(APIView):
         permission_classes = [AllowAny]
 
@@ -84,7 +95,7 @@ class OrderViewSet(viewsets.ModelViewSet):
         elif user.role == 'customer':
             return Order.objects.filter(customer__email=user.email)
         return super().get_queryset()
-
+    
 class RegisterView(APIView):
     permission_classes = [AllowAny]
 
@@ -104,6 +115,11 @@ class LoginView(APIView):
         user = User.objects.filter(username=username).first()
         if user and user.check_password(password):
             refresh = RefreshToken.for_user(user)
+            balance = None
+            if user.role == 'courier':
+                courier = Courier.objects.get(email=user.email)
+                balance = courier.balance
+
             return Response({
                 "refresh": str(refresh),
                 "access": str(refresh.access_token),
@@ -112,6 +128,7 @@ class LoginView(APIView):
                     "username": user.username,
                     "email": user.email,
                     "role": user.role,
+                    "balance": balance,
                 }
             })
         return Response({"error": "Invalid credentials"}, status=400)

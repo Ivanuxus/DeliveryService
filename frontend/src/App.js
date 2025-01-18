@@ -12,9 +12,8 @@ import TrackOrder from './components/TrackOrder';
 const App = () => {
     const role = localStorage.getItem('userRole');
    
-
-
     return (
+        
         <Router>
             <Navbar />
             <Routes>

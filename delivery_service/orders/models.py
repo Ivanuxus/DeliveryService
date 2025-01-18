@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from decimal import Decimal  
 
 class User(AbstractUser):
     ROLE_CHOICES = [
@@ -15,18 +16,41 @@ class User(AbstractUser):
 class Customer(models.Model):
     name = models.CharField(max_length=255)
     email = models.EmailField()
-    address = models.CharField(max_length=255, blank=True, null=True)  # Новый атрибут
-    phone = models.CharField(max_length=15, blank=True, null=True)  # Новый атрибут
-
+    address = models.CharField(max_length=255, blank=True, null=True)  
+    phone = models.CharField(max_length=15, blank=True, null=True)
+    def save(self, *args, **kwargs):
+        if not User.objects.filter(email=self.email).exists():  # Если пользователь с этим email не существует
+            User.objects.create_user(
+                username=self.name,
+                email=self.email,
+                password='1',  # Укажите механизм для пароля
+                role='customer'
+            )
+        super().save(*args, **kwargs)
     def __str__(self):
         return self.name
+    
+    
 
 class Courier(models.Model):
+
     name = models.CharField(max_length=255)
     phone = models.CharField(max_length=15)
     vehicle = models.CharField(max_length=50)
-    email = models.EmailField()  # Добавлено поле email
-    balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)  # Баланс курьера
+    email = models.EmailField() 
+    balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    monthly_order_count = models.PositiveIntegerField(default=0)
+
+    def save(self, *args, **kwargs):
+        if not User.objects.filter(email=self.email).exists():  # Если пользователь с этим email не существует
+            User.objects.create_user(
+                username=self.name,
+                email=self.email,
+                password='1',  # Укажите механизм для пароля
+                role='courier'
+            )
+        super().save(*args, **kwargs)
+
 
     def __str__(self):
         return self.name
@@ -50,7 +74,8 @@ class Order(models.Model):
             old_status = Order.objects.get(pk=self.pk).status
             if old_status != 'Delivered' and self.status == 'Delivered':
                 # Начисляем деньги курьеру
-                self.courier.balance += 10.00  # Например, фиксированная сумма 10.00
+                self.courier.balance += Decimal('10.00')
+                self.courier.monthly_order_count += 1
                 self.courier.save()
 
         super().save(*args, **kwargs)
