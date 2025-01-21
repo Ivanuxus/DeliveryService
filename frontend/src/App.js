@@ -33,8 +33,9 @@ const App = () => {
                 {role === 'customer' && (
                     <Route path="/orders" element={<Orders />} />
                 )}
+                {/*
                 <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
+                <Route path="/register" element={<Register />} />*/}
                 <Route path="/track/:id" element={<TrackOrder />} />
             </Routes>
         </Router>
