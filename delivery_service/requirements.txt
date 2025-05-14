@@ -9,6 +9,7 @@ cycler==0.12.1
 dj-database-url==2.3.0
 Django==5.1.6
 django-cors-headers==4.7.0
+django-extensions==4.1
 django-filter==25.1
 djangorestframework==3.16.0
 ecdsa==0.19.1
@@ -39,6 +40,7 @@ sqlparse==0.5.3
 tomli==2.2.1
 typing_extensions==4.12.2
 tzdata==2025.1
+whitenoise==6.9.0
 asgiref==3.8.1
 bip-utils==2.9.3
 cbor2==5.6.5
@@ -81,3 +83,4 @@ sqlparse==0.5.3
 tomli==2.2.1
 typing_extensions==4.12.2
 tzdata==2025.1
+whitenoise==6.9.0
